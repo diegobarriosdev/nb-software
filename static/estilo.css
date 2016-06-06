@@ -1,0 +1,38 @@
+*{
+	padding: 0px;
+	margin: 0px;
+}
+@font-face {
+	font-family: fuente;
+	src: url(fonts/angrybirds-regular.ttf);
+}
+body{
+	font-family:fuente;
+}
+.con-principal{
+	height: 10vh;
+}
+.container{
+	height: 100vh;
+}
+audio{
+	display: none;
+}
+input {
+	width: 400px;
+}
+button { 
+	width: 10em; 
+	height:10em;
+	border-radius:50%;
+	background-color:FF3300;
+}
+textarea {
+	width: 80%;
+	min-height:20em;
+}
+.ehidden{
+	text-indent: 100%;
+  	white-space: nowrap;
+  	overflow: hidden;
+}
