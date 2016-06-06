@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container con-principal">
+	<h1 class="center-align">Continuar...</h1>
+    <center>    
+		<br/>   
+		Camara:<p id="a1numblocksbycam">{{useractivity}}</p>
+		Real:<p id="a1numblocksreal">{{nblockstoput}}</p>
+
+		<div id="btn01camsucc" style="display:none;" >
+	    	<a href="/act01m2" class="button button-circle button-action animated infinite tada">
+	    		<center><i class="fa fa-angle-double-right fa-3x" aria-hidden="true"></i></center>
+	    	</a> 
+	    </div>
+	    <br/>
+
+	    <div id="btn02camerror" style="display:none;" >
+	    	<a href="/rcam1" class="button button-circle button-caution animated infinite tada">
+	    		<center><i class="fa fa-repeat" aria-hidden="true"></i></center>
+	    	</a> 
+	    </div>
+		<br/>
+    </center>
+</div>
+{% endblock %}

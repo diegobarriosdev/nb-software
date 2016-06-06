@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container con-principal ">
+	<h1 class="center-align">¿Cuantos bloques he colocado?</h1>
+    <center>
+    <audio autoplay>
+    	<source src="static/aud/d05.wav" type="audio/mpeg">
+    </audio>
+	<br />   
+	<div>
+		<input id="input" type="hidden" >
+		<p id="numblocks" class=''>{{numblockscom}}</p>
+		<!--<a href="/rcam1/{{numblockscom}}">hola</a>-->
+		<div id='reca1m1p1'>
+			<button id="rec" class='hvr-radial-out'>
+				<center><i id="irec" class='fa fa-microphone fa-5x' aria-hidden="true"></i></center>
+				¡Responde!
+			</button>
+		</div>
+		<br/><br/>
+		<div id='resa1m1p1' style='display:none;'>
+			<a href="/rcam1" class="button button-circle button-action animated infinite tada">
+				<center><i class="fa fa-angle-double-right fa-3x" aria-hidden="true"></i></center>
+			</a>
+		</div>
+
+		<div id='trya1m1p1' style='display:none;'>
+			<a href="/rvoz1" class="button button-circle button-caution animated infinite tada">
+				<center><i class="fa fa-repeat" aria-hidden="true"></i></center>
+			</a>
+		</div>
+		
+			<br/>
+	</div>
+	<br/>
+	<br/>	  
+    </center>
+</div>
+{% endblock %}

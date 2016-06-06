@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container con-principal">
+	<h1 class="center-align">Continuar...</h1>
+    <center>    
+		<br/>   
+		Numero Bloques Jugador:<p id="a1m2nbplayer">{{a1m2nbplayer}}</p>
+
+		<div id="btn04camsucc" style="display:none;" >
+	    	<a href="/act02m1" class="button button-circle button-highlight animated infinite tada">
+	    		<center><i class="fa fa-angle-double-right fa-3x" aria-hidden="true"></i></center>
+	    	</a> 
+	    </div>
+	    <br/>
+
+	    <div id="btn05camerror" style="display:none;" >
+	    	<a href="/rcam2" class="button button-circle button-caution animated infinite tada">
+	    		<center><i class="fa fa-repeat" aria-hidden="true"></i></center>
+	    	</a> 
+	    </div>
+		<br/>
+    </center>
+</div>
+{% endblock %}

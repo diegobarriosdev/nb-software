@@ -1,0 +1,414 @@
+
+	/*
+			var accessToken = "9d2f8c9237de40a69bb7d324891fc0ee";
+			var baseUrl = "https://api.api.ai/v1/";
+			var recognition;
+			var rv2="";
+			var activeActivity=0;
+
+			$(document).ready(function() {
+				$("#input").keypress(function(event) {
+					if (event.which == 5) {
+						event.preventDefault();
+						send();
+					}
+				});
+				$("#rec").click(function(event) {
+					switchRecognition();
+				});
+			});
+
+			
+			$( "#p01" ).ready(function() {
+				var seconds = parseInt($("#p01").text());
+				if(seconds>0&&seconds<=9){					
+					showelement('but01',seconds*1000);}
+					//playsoundwithpause("d92",4000);
+			});
+
+
+			$( "#a1numblocksbycam" ).ready(function(){
+				var nbbycam=$("#a1numblocksbycam").text();
+				//var nbbycam="success";
+				//var nbreal=9;
+				var nbreal=parseInt($("#a1numblocksreal").text());
+				switch(nbbycam){
+					case "error":
+						playsoundwithpause("d96",500);
+						showelement('btn02camerror',6500);
+					break;
+
+					case "failure":
+						playsoundwithpause("d10",500);
+						playsoundwithpause(choosingnumbersound(nbreal),3000);
+						playsoundwithpause("d42",4000);
+						playsoundwithpause("d11",6500);
+						showelement('btn02camerror',6500);
+					break;
+
+					case "success":
+						playsoundwithpause("d09",500);
+						playsoundwithpause(choosingnumbersound(nbreal),3000);
+						playsoundwithpause("d42",3500);
+						playsoundwithpause("d12",5000);
+						playsoundwithpause("d13",7000);
+						showelement('btn01camsucc',7000);
+					break;
+
+					case "empty":
+						playsoundwithpause("d93",500);
+						playsoundwithpause("d97",3500);
+						showelement('btn02camerror',6500);
+					break;
+				}
+			});
+
+			$( "#a1m2nbplayer" ).ready(function(){
+				var nbplayera1m2=parseInt($("#a1m2nbplayer").text());
+				if(nbplayera1m2!=0){
+					showelement("btn04camsucc",1000);
+				}else{
+					showelement("btn03camerror",1000);
+										
+				}
+			});
+
+			$( "#nb-c-COM" ).ready(function() {
+				alert("hola");
+				/*
+					activeActivity=2;
+					var ecolor="none";
+					var nbrCOM=parseInt($('#nb-r-COM').text());
+					var nbgCOM=parseInt($('#nb-g-COM').text());
+					var nbbCOM=parseInt($('#nb-b-COM').text());
+					time=(nbrCOM+nbgCOM+nbbCOM)*(1000);
+					swr=0; swg=0; swb=0;
+					alert("Estoy aqui...");
+					pause(time);
+					alert("Llegue aquí...");
+					if(swr==0){
+						playAskNumberColor("r");
+					}
+
+					showelement('btn-a2-rv-01',1000);				
+					if(swr==0){
+						alert("R voz:"+rv2);
+						alert("Reds :"+nbrCOM);
+						swr=playResponse(nbrCOM,rv2);
+					}
+					*/					
+				});
+
+
+			$( "#btn03next" ).ready(function(){
+				showelement("btn03next",8000);
+			});			
+
+			$( "#a1m2nbplayer" ).ready(function(){
+				var n=parseInt($("#a1m2nbplayer").text());		
+				if(!isNaN(n)){
+					if(n>0&&n<=9){
+						playsoundwithpause("d09",500);
+						playsoundwithpause(choosingnumbersound(n),2500);
+						playsoundwithpause("d42",3500);	
+						playsoundwithpause("d16",6000);
+						playsoundwithpause("d17",(n*50000));
+						playsoundwithpause(choosingnumbersound(n),((n*50000)+1500));
+						playsoundwithpause("d42",((n*50000)+2500));
+						playsoundwithpause("d18",((n*50000)+8000));
+						showelement("btn04camsucc",((n*50000)+8000));
+					}else{
+						playsoundwithpause("d97",500);
+						playsoundwithpause("d95",3000);	
+						showelement("btn05camerror",6000);
+					}
+				}
+			});	
+
+			function playResponse(nblock,nvoz){
+				if(nblock!=nvoz){
+					playsoundwithpause('d23',0);
+					return 0;
+				}else{
+					playsoundwithpause('d22',0);
+					return 1;
+				}
+			}
+
+			function playAskNumberColor(ecolor){
+				if(ecolor=="r"){
+					choosseNumberColor("r");
+				else if(ecolor=="g"){
+					choosseNumberColor("g");
+				}else if(ecolor=="b"){
+					choosseNumberColor("b");
+				}
+			}
+
+			function choosseNumberColor(swr){
+				if(swr!=""){
+					playsoundwithpause('d87',0);
+					switch(swr){
+						case "r":
+							playsoundwithpause('d38',2500);
+						case "g":
+							playsoundwithpause('d41',2500);
+						case "b":
+							playsoundwithpause('d40',2500);
+					}
+					playsoundwithpause('d88',3500);				
+				}else{
+					playsoundwithpause('d96',1000);
+				}				
+			}
+
+			function startRecognition() {
+				recognition = new webkitSpeechRecognition();
+				recognition.onstart = function(event) {
+					updateRec();
+				};
+				recognition.onresult = function(event) {
+					var text = "";
+					for (var i = event.resultIndex; i < event.results.length; ++i) {
+						text += event.results[i][0].transcript;
+					}
+					setInput(text);
+					stopRecognition();
+				};
+				recognition.onend = function() {
+					stopRecognition();
+				};
+				recognition.lang = "es-ES";
+				recognition.start();
+			}
+		
+			function stopRecognition() {
+				if (recognition) {
+					recognition.stop();
+					recognition = null;
+				}
+				updateRec();
+			}
+
+			function switchRecognition() {
+				if (recognition) {
+					stopRecognition();
+				} else {
+					startRecognition();
+				}
+			}
+			
+			function updateRec() {
+				$("#rec").text(recognition ? "Detener" : "Hablar");
+			}
+
+			function send() {
+				var text = $("#input").val();
+				$.ajax({
+					type: "POST",
+					url: baseUrl + "query/",
+					contentType: "application/json; charset=utf-8",
+					dataType: "json",
+					headers: {
+						"Authorization": "Bearer " + accessToken
+					},
+					data: JSON.stringify({ q: text, lang: "en" }),
+
+					success: function(data) {
+						setResponse(JSON.stringify(data, undefined, 2));
+					},
+					error: function() {
+						setResponse("Internal Server Error");
+					}
+				});
+				setResponse("Loading...");
+			}
+
+			function setResponse(val) {
+				$("#response").text(val);
+			}
+
+			function setInput(text) {
+				$("#input").val(text);
+				//send();
+				var tquery=document.getElementById('input');
+				a1m1t1_responsetoplayer(tquery.value);	
+				if(activeActivity==2){
+					var rv2=document.getElementById('input');
+				}			
+			}
+			
+			function a1m1t1_responsetoplayer(usresponse){		
+				var numerod = $("#numblocks").text();
+				var numerodecore=parseInt(numerod);				
+				if(havenumbers(usresponse)!=0){
+					switch(numerodecore){
+						case 1:
+							if(/1/.test(usresponse)&&usresponse.length==1)
+							{ 
+								playsoundwithpause("")
+								a1_playsecuence('d90','d06','d28','d42','d08');
+							  	showelement('resa1m1p1',7000);							  
+							}else{ 
+								a1_playsecuence('d91','d07','d28','d42','');							
+								showelement('trya1m1p1',0);
+							 }
+							break;
+						
+						case 2:
+							if(/2/.test(usresponse)&&usresponse.length==1)
+							{ 
+								a1_playsecuence('d90','d06','d29','d42','d08');
+							  	showelement('resa1m1p1',7000);
+							}else{ 
+								a1_playsecuence('d91','d07','d29','d42','');
+								showelement('trya1m1p1',0);
+							 }
+							break;
+						
+						case 3:
+							if(/3/.test(usresponse)&&usresponse.length==1)
+							{ 
+								a1_playsecuence('d90','d06','d30','d42','d08');
+							  	showelement('resa1m1p1',7000);
+							}else{ 
+								a1_playsecuence('d91','d07','d30','d42','');
+								showelement('trya1m1p1',0);
+							 }
+							break;
+						
+						case 4:
+						if(/4/.test(usresponse)&&usresponse.length==1)
+							{ 
+								a1_playsecuence('d90','d06','d31','d42','d08');
+							  	showelement('resa1m1p1',7000);
+							}else{ 
+								a1_playsecuence('d91','d07','d31','d42','');
+								showelement('trya1m1p1',0);
+							 }
+							break;
+						
+						case 5:
+							if(/5/.test(usresponse)&&usresponse.length==1)
+							{ 
+								a1_playsecuence('d90','d06','d32','d42','d08');
+								showelement('resa1m1p1',7000);
+							}else{ 
+								a1_playsecuence('d91','d07','d32','d42','');
+								showelement('trya1m1p1',0);
+							}
+							break;
+						
+						case 6:
+							if(/6/.test(usresponse)&&usresponse.length==1)
+							{ 
+								a1_playsecuence('d90','d06','d33','d42','d08');
+							  	showelement('resa1m1p1',7000);
+							}else{ 
+								a1_playsecuence('d91','d07','d33','d42','');
+								showelement('trya1m1p1',0);
+							}
+							break;
+										
+						case 7:
+							if(/7/.test(usresponse)&&usresponse.length==1)
+							{ 
+								a1_playsecuence('d90','d06','d34','d42','d08');
+							  	showelement('resa1m1p1',7000);
+							}else{ 
+								showelement('trya1m1p1',0);
+								a1_playsecuence('d91','d07','d34','d42','');
+							}
+							break;
+												
+						case 8:
+							if(/8/.test(usresponse)&&usresponse.length==1)
+							{ 
+								a1_playsecuence('d90','d06','d35','d42','d08');
+								showelement('resa1m1p1',7000);
+							}else{ 
+								showelement('trya1m1p1',0);
+								a1_playsecuence('d91','d07','d35','d42','');
+							}
+							break;			
+						
+						case 9:
+							if(/9/.test(usresponse)&&usresponse.length==1)
+							{ 
+								a1_playsecuence('d90','d06','d36','d42','d08');
+								showelement('resa1m1p1',7000);
+							}else{ 
+								showelement('trya1m1p1',0);
+								a1_playsecuence('d91','d07','d36','d42','');
+							}
+							break;
+						
+						default:
+							alert("Error");
+					}
+					hideelement('reca1m1p1');
+				}else{
+					playsound('d94');
+				}
+			}
+
+			function choosingnumbersound(xnumber){
+				nnumber="";
+				switch(xnumber){
+					case 1: nnumber="d28";	break;
+					case 2: nnumber="d29";	break;
+					case 3: nnumber="d30";	break;
+					case 4: nnumber="d31";	break;
+					case 5: nnumber="d32";	break;
+					case 6: nnumber="d33";	break;
+					case 7: nnumber="d34";	break;
+					case 8: nnumber="d35";	break;
+					case 9: nnumber="d36";	break;
+					default:
+						nnumber="d97";
+				}
+				return nnumber;
+			}
+			
+			function playsound(audio){
+				var audio = new Audio('static/aud/'+audio+'.wav');
+				audio.play();
+			}
+
+			function playsoundwithpause(mysound,mypause){
+				setTimeout(function(){ playsound(mysound); },mypause);
+			}
+			
+			function a1_playsecuence(effect,mssg,numb,keyw,next){
+				setTimeout(function(){ playsound(effect); }, 0);
+				setTimeout(function(){ playsound(mssg); }, 500);
+				setTimeout(function(){ playsound(numb); }, 3000);
+				setTimeout(function(){ playsound(keyw); }, 3700);
+				setTimeout(function(){ playsound(next); }, 4500);
+			}
+			
+			function pause(millis)
+			 {
+				var date = new Date();
+				var curDate = null;
+				do { curDate = new Date(); }
+				while(curDate-date < millis);
+			}
+			
+			function havenumbers(text){
+				  var numb="0123456789";
+				   for(i=0; i<text.length; i++){
+					  if (numb.indexOf(text.charAt(i),0)!=-1){
+						 return 1;
+					  }
+				   }
+				   return 0;
+			}	
+
+			function showelement(element,timeinseconds){
+				setTimeout(function(){ 
+					document.getElementById(element).style.display = 'block'; },timeinseconds);
+			}
+					
+			function hideelement(element){
+					document.getElementById(element).style.display = 'none';}
