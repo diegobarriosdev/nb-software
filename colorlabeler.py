@@ -6,10 +6,9 @@ import cv2
 class ColorLabeler:
     def __init__(self):
         colors = OrderedDict({
-            "red": (255, 0, 0),
-            "green": (0, 255, 0),
-            "blue": (034,113,179),
-            "yellow":(248,243,53)})
+            "red":(255, 0, 0),
+            "green":(0, 100, 30),
+            "blue":(0,110,220)})
  
         self.lab = np.zeros((len(colors), 1, 3), dtype="uint8")
         self.colorNames = []

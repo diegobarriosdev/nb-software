@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container con-principal ">
+	<h1 class="center-align">¿Dame un numero?</h1>   
+ 	<div id='div-a1-rv-1'>
+ 		<center>
+			<input id="input" type='hidden'/>
+			<p id='nbCOM' class='dhidden'>{{nbCOM}}</p>
+
+			<button id="rec" class='hvr-radial-out'>
+				 <i id='irec' class='fa fa-microphone fa-5x' aria-hidden='true'></i>
+			</button>
+			<br/><br/>
+
+			<div id='div-a1-rv-1-s' class='dhidden'>
+				<a href="/rcam-a1-01" class="button button-circle button-action animated infinite tada">
+					<i class="fa fa-angle-double-right fa-3x" aria-hidden="true"></i>
+				</a>
+			</div>
+
+			<div id='div-a1-rv-1-e' class='dhidden'>
+				<a href="/rvoz-a1-01" class="button button-circle button-caution animated infinite tada">
+					<center><i class="fa fa-repeat" aria-hidden="true"></i></center>
+				</a>
+			</div>
+		 </center>
+	</div>    
+</div>
+{% endblock %}

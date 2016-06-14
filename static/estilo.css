@@ -31,8 +31,14 @@ textarea {
 	width: 80%;
 	min-height:20em;
 }
+
+.dhidden{
+	display: none;
+}
+
 .ehidden{
 	text-indent: 100%;
   	white-space: nowrap;
   	overflow: hidden;
 }
+

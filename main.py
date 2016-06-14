@@ -21,49 +21,11 @@ frames=0
 numblocks=0
 
 #Functions
-def getrow():
-    return randint(0,2)
-
-def getcol():
-    return randint(0,2)
-   
-def fillmatrix(n):
-    i=1
-    while i<=n: 
-        r=getrow()
-        f=getcol()
-        if matrix[r][f]!=1:
-            matrix[r][f]=1
-            i=i+1
-
-def matrixcolor(r,g,b):
-    i=1
-    for i in range(0,3):
-        for j in range(0,3):
-            aleatory=randint(0,3)
-            matrix[i][j]=1
-        
-        
-def resetmatrix():
-        for i in range(0,3):
-            for j in range(0,3):
-                matrix[i][j]=0
-
-def buildstring():
-    allcoordinates=""
-    for i in range(0,3):
-        for j in range(0,3):
-            if(matrix[i][j])==1:
-                allcoordinates+="f"+str(i)+"c"+str(j)+"_"
-    return allcoordinates
-        
-def printmatrix():
-    for i in range(0,3):
-        for j in range(0,3):
-            print("Matriz["+str(i)+"]["+str(j)+"]="+str(matrix[i][j]))
-
 def playaudio(aud):
     winsound.PlaySound(aud,winsound.SND_FILENAME)
+
+def imagepath(i):
+    return "img/"+i+".png"
 
 def captureimage():
     camera=cv2.VideoCapture(port)
@@ -129,7 +91,7 @@ def findcolors(nc,im):
     gray = cv2.cvtColor(blurred, cv2.COLOR_BGR2GRAY)
     lab = cv2.cvtColor(blurred, cv2.COLOR_BGR2LAB)
     thresh = cv2.threshold(gray, 60, 255, cv2.THRESH_BINARY)[1]
- 
+        
     cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
         cv2.CHAIN_APPROX_SIMPLE)
     cnts = cnts[0] if imutils.is_cv2() else cnts[1]
@@ -150,121 +112,125 @@ def findcolors(nc,im):
                 cv2.putText(image, text, (cX, cY),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
                 cont=cont+1
-                cv2.imshow("Image", image)
-                cv2.waitKey(0)
+                #cv2.imshow("Image", image)
+                #cv2.waitKey(0)
     return cont
 
 def getnumber():
     return randint(1,9)
 
-#Views
 
 @app.route("/")
 def index():
     return render_template('inicio.html')
 
-@app.route("/act01m1")
+@app.route("/stg-a1-01")
 def iniciar():
-    #resetmatrix()
     #numblocks=getnumber()
-    numblocks=9
-    #fillmatrix(numblocks)
-    #printmatrix()
-    #cad=buildstring()
-    #print(cad)
-    #printmatrix()
-    #Enviar Cadena a Arduino
-    return render_template('act01m1.html',timetoway=numblocks)
+    nbCOM=9
+    return render_template('stg-a1-01.html',nbCOM=nbCOM)
 
-@app.route('/rvoz1')
+@app.route("/rvoz-a1-01")
 def rvoz1():
     #captureimage()
     #saveimage("com","a1m1com")
-    cutimage("com","a1m101","a1m1com01")
-    numblockscom=countcotours("a1m1com01")
-    #print("Numero de Bloques COM:"+str(numblockscom))
-    return render_template('rvoz1.html',numblockscom=numblockscom)
+    cutimage("com","originala101","a1m1com01")
+    nbCOM=countcotours("a1m1com01")
+    return render_template('rvoz-a1-01.html',nbCOM=nbCOM)
 
 #Verificar tablero Jugador
-@app.route('/rcam1')
+@app.route("/rcam-a1-01")
 def rcam1():
     #captureimage()
-    #saveimage("a1m1player1")
-    cutimage("com","a1m101","a1m1com01")
-    cutimage("player","a1m101","a1m1player01")
-    playernumblocks=countcotours("a1m1player01")
-    comnumblocks=countcotours("a1m1com01")
-    #print("Numero de Bloques PLAYER:"+str(playernumblocks))
-    #print("Numero de Bloques COM   :"+str(comnumblocks))
-    if(playernumblocks!=0):
-        if(playernumblocks!=comnumblocks):
-            useractivity="failure"
-        else:
-            if (playernumblocks==comnumblocks):
-                useractivity="success"
-            else:
-                useractivity="error"
-    else:
-        useractivity="empty"      
-    return render_template("rcam1.html",useractivity=useractivity,nblockstoput=comnumblocks)
+    #saveimage("originala101")
+    cutimage("com","originala101","a1m1com")
+    cutimage("player","originala101","a1m1player")
+    nbPlayer=countcotours("a1m1player")
+    nbCom=countcotours("a1m1com")
+    return render_template("rcam-a1-01.html",nbCOM=nbCom,nbPlayer=nbPlayer)
 
-@app.route("/act01m2")
+@app.route("/stg-a1-02")
 def act01m2():
-    return render_template('act01m2.html')
+    return render_template('stg-a1-02.html')
 
-@app.route("/rcam2")
+@app.route("/rcam-a1-02")
 def rcam2():
     #captureimage()
-    #saveimage("a1m2player")
-    cutimage("player","a1m201","a1m2player")
-    nblocks=countcotours("a1m2player")
-    #resetmatrix();
-    #fillmatrix(nblocks)
-    #printmatrix()
-    #cad=buildstring()
+    #saveimage("originala102")
+    cutimage("player","originala102","a1m2player")
+    nbPlayer=countcotours("a1m2player")
     #Pasar a Arduino
-    #print("Numero de Bloques Player01: "+str(nblocks))
-    return render_template("rcam2.html",a1m2nbplayer=nblocks)
+    return render_template("rcam-a1-02.html",nbPlayer=nbPlayer)
     
-@app.route("/act02m1")    
-def act02m1():
+@app.route("/stg-a2-01")    
+def act02m101():
     n=getnumber()
-    #print("Number: "+str(n))
     sw=False
-    #print(sw)
     while(sw!=True):
-        #print(sw)
         r=randint(1,3)
         g=randint(1,3)        
         b=randint(1,3)
-        total=r+g+b
-        if total==n:
+        t=r+g+b
+        if t==n:
             xy=str("B_")+str(r)+str(g)+str(b)+"#"
             sw=True
             print("Enviar a Arduino-COM"+str(xy))
-            #print(sw)
-            #print("Green: "+str(green))
-            #print("Red  : "+str(red))    
-    return render_template("act02m1.html",nbrCOM=r,nbgCOM=g,nbbCOM=b)
+    return render_template("stg-a2-01.html",tbCom=t)
 
-#@app.route("/on")
-#def on():
-    #ser = serial.Serial('COM6')
-    #time.sleep(1.8) 
-    #print(ser.name)
-    #ser.write('1')
-    #ser.close()
-    #return "Led encendido"
-    
-#@app.route("/off")
-#def off():
-    #ser = serial.Serial('COM6')
-    #print(ser.name)
-    #ser.write('2'.encode())
-    #ser.close()
-    #return "Led apagado"
+@app.route("/stg-a2-02")
+def act02m102():
+    #captureimage()
+    #saveimage("originala2m1")  
+    cutimage("com","originala201","coma2m1")
+    rc=findcolors("red",imagepath("coma2m1"))   
+    return render_template("stg-a2-02.html",rc=rc)
 
+@app.route("/stg-a2-03")
+def act02m103():
+    #captureimage()
+    #saveimage("originala2m1")
+    cutimage("com","originala201","coma2m1")
+    gc=findcolors("green",imagepath("coma2m1"))
+    return render_template("stg-a2-03.html",gc=gc)
+
+@app.route("/stg-a2-04")
+def act02m104():
+    #captureimage()
+    #saveimage("originala2m1")
+    cutimage("com","originala201","coma2m1")
+    bc=findcolors("blue",imagepath("coma2m1"))
+    return render_template("stg-a2-04.html",bc=bc)
+
+@app.route("/stg-a2-05")
+def act02m105():
+    return render_template("stg-a2-05.html")
+
+@app.route("/stg-a2-06")
+def act02m106():
+    rc=0
+    gc=0
+    bc=0
+    rp=0
+    gp=0
+    bp=0
+    #captureimage()
+    #saveimage("originala2m1")
+    cutimage("com","originala202","coma2m2")
+    cutimage("player","originala202","playera2m2")
+    rc=findcolors("red",imagepath("coma2m2"))
+    gc=findcolors("green",imagepath("coma2m2"))
+    bc=findcolors("blue",imagepath("coma2m2"))
+    rp=findcolors("red",imagepath("playera2m2"))
+    gp=findcolors("green",imagepath("playera2m2"))
+    bp=findcolors("blue",imagepath("playera2m2"))
+    return render_template("stg-a2-06.html",rc=rc,gc=gc,bc=bc,rp=rp,gp=gp,bp=bp)
+
+@app.route("/stg-a2-07")
+def act02m107():
+    return render_template("stg-a2-07.html")
+
+ 
 if __name__ == "__main__":
-    app.run(host='192.168.1.3')
+    app.run(host='172.15.37.15')
 
 

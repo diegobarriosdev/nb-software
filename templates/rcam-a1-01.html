@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container con-principal">
+	<h1 class="center-align">Continuar...</h1>
+    <center>    
+		<div id='div-a1-rc1'>  
+			<p id='nbCOM' class='dhidden'>{{nbCOM}}</p>
+			<p id='nbPlayer' class='dhidden'>{{nbPlayer}}</p>
+
+		<div id="div-a1-rc1-s" class='dhidden' >
+	    	<a href="/stg-a1-02" class="button button-circle button-action animated infinite tada">
+	    		<i class="fa fa-angle-double-right fa-3x" aria-hidden="true"></i>
+	    	</a> 
+	    </div>  
+
+	    <div id="div-a1-rc1-e" class='dhidden' >
+	    	<a href="/rcam-a1-01" class="button button-circle button-caution animated infinite tada">
+	    		<i class="fa fa-repeat" aria-hidden="true"></i>
+	    	</a> 
+	    </div>
+		</div>
+    </center>
+</div>
+{% endblock %}

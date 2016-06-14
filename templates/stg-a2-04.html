@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container con-principal">
+	<h1 class="center-align">Actividad 2</h1>
+    <center>
+    <div id="div-stg-02-04">
+    <p id='bc' class='dhidden'>{{bc}}</p>
+
+    <input id="input" type='hidden'/>
+    <button id="rec" class='hvr-radial-out'>
+         <i id='irec' class='fa fa-microphone fa-5x' aria-hidden='true'></i>
+    </button>
+
+        <div id='div-a2-rv-1-s' class='dhidden'>
+            <a href="/stg-a2-05" class="button button-circle button-action animated infinite tada">
+                <i class="fa fa-angle-double-right fa-3x" aria-hidden="true"></i>
+            </a> 
+        </div>
+
+        <div id='div-a2-rv-1-e' class='dhidden'>
+                <a href="/stg-a2-04" class="button button-circle button-caution animated infinite tada">
+                    <center><i class="fa fa-repeat" aria-hidden="true"></i></center>
+                </a>
+        </div>   
+    </div>
+</div>
+</center>
+{% endblock %}
