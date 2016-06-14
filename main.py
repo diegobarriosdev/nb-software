@@ -19,7 +19,15 @@ matrix=[[0,0,0],[0,0,0],[0,0,0]]
 port=1
 frames=0
 numblocks=0
+arduino=None
 
+
+def sendToArduino(dat):
+    arduino = serial.Serial("COM4", 9600)   
+    time.sleep(2)
+    arduino.write(dat)
+    arduino.close()
+    
 #Functions
 def playaudio(aud):
     winsound.PlaySound(aud,winsound.SND_FILENAME)
@@ -35,24 +43,24 @@ def captureimage():
 def saveimage(name):
     for i in xrange(frames):
         temp=captureimage()
-    print ("Taking image...")
+    print("Taking image...")
     camcapture=captureimage()
     file="img/"+name+".png"
     cv2.imwrite(file,camcapture)
-    print ("Imagen is saved")
+    print("Imagen is saved")
        
 def cutimage(player,original,edited):
     imageoriginal="img/"+original+".png"
     imageedited="img/"+edited+".png"
     img=cv2.imread(imageoriginal)
     if player=="com":
-        tmp=img[150:340, 35:225]        
+        tmp=img[105:330, 25:250]        
         cv2.imwrite(imageedited,tmp)        
     elif player=="player":
-        tmp=img[150:340, 400:600]
+        tmp=img[105:310, 400:600]
         cv2.imwrite(imageedited,tmp)
-    cv2.imshow("Cut Image", tmp)
-    cv2.waitKey(0)
+    #cv2.imshow("Cut Image", tmp)
+    #cv2.waitKey(0)
     
 def countcotours(img):
     nc=0
@@ -68,7 +76,7 @@ def countcotours(img):
     
     for c in cnts:
     # compute the center of the contour
-        if cv2.contourArea(c)<100:
+        if cv2.contourArea(c)<800:
             continue
         else:
             M = cv2.moments(c)
@@ -123,17 +131,21 @@ def getnumber():
 @app.route("/")
 def index():
     return render_template('inicio.html')
+    
 
 @app.route("/stg-a1-01")
 def iniciar():
-    #numblocks=getnumber()
-    nbCOM=9
+    #nbCOM=getnumber()
+    nbCOM=4
+    dat='A'+str(nbCOM)+'#'
+    sendToArduino(dat)
+    print("Numero Enviado: "+str(nbCOM))
     return render_template('stg-a1-01.html',nbCOM=nbCOM)
 
 @app.route("/rvoz-a1-01")
 def rvoz1():
-    #captureimage()
-    #saveimage("com","a1m1com")
+    captureimage()
+    saveimage("originala101")
     cutimage("com","originala101","a1m1com01")
     nbCOM=countcotours("a1m1com01")
     return render_template('rvoz-a1-01.html',nbCOM=nbCOM)
@@ -141,12 +153,14 @@ def rvoz1():
 #Verificar tablero Jugador
 @app.route("/rcam-a1-01")
 def rcam1():
-    #captureimage()
-    #saveimage("originala101")
+    captureimage()
+    saveimage("originala101")
     cutimage("com","originala101","a1m1com")
     cutimage("player","originala101","a1m1player")
     nbPlayer=countcotours("a1m1player")
     nbCom=countcotours("a1m1com")
+    print("COM B:"+str(nbCom))
+    print("PLA B:"+str(nbPlayer))
     return render_template("rcam-a1-01.html",nbCOM=nbCom,nbPlayer=nbPlayer)
 
 @app.route("/stg-a1-02")
@@ -155,11 +169,15 @@ def act01m2():
 
 @app.route("/rcam-a1-02")
 def rcam2():
-    #captureimage()
-    #saveimage("originala102")
+    captureimage()
+    saveimage("originala102")
     cutimage("player","originala102","a1m2player")
     nbPlayer=countcotours("a1m2player")
-    #Pasar a Arduino
+    print("NBloques A2M2: "+str(nbPlayer))
+    dat='A'+str(nbPlayer)+'#'
+    print(dat)
+    sendToArduino(dat)
+    print("Numero Bloques: " + str(nbPlayer))
     return render_template("rcam-a1-02.html",nbPlayer=nbPlayer)
     
 @app.route("/stg-a2-01")    
@@ -172,31 +190,32 @@ def act02m101():
         b=randint(1,3)
         t=r+g+b
         if t==n:
-            xy=str("B_")+str(r)+str(g)+str(b)+"#"
+            xy='B'+str(r)+str(g)+str(b)+'#'
             sw=True
             print("Enviar a Arduino-COM"+str(xy))
+            sendToArduino(xy)
     return render_template("stg-a2-01.html",tbCom=t)
 
 @app.route("/stg-a2-02")
 def act02m102():
-    #captureimage()
-    #saveimage("originala2m1")  
+    captureimage()
+    saveimage("originala201")  
     cutimage("com","originala201","coma2m1")
     rc=findcolors("red",imagepath("coma2m1"))   
     return render_template("stg-a2-02.html",rc=rc)
 
 @app.route("/stg-a2-03")
 def act02m103():
-    #captureimage()
-    #saveimage("originala2m1")
+    captureimage()
+    saveimage("originala201")
     cutimage("com","originala201","coma2m1")
     gc=findcolors("green",imagepath("coma2m1"))
     return render_template("stg-a2-03.html",gc=gc)
 
 @app.route("/stg-a2-04")
 def act02m104():
-    #captureimage()
-    #saveimage("originala2m1")
+    captureimage()
+    saveimage("originala201")
     cutimage("com","originala201","coma2m1")
     bc=findcolors("blue",imagepath("coma2m1"))
     return render_template("stg-a2-04.html",bc=bc)
@@ -213,8 +232,8 @@ def act02m106():
     rp=0
     gp=0
     bp=0
-    #captureimage()
-    #saveimage("originala2m1")
+    captureimage()
+    saveimage("originala202")
     cutimage("com","originala202","coma2m2")
     cutimage("player","originala202","playera2m2")
     rc=findcolors("red",imagepath("coma2m2"))
@@ -231,6 +250,6 @@ def act02m107():
 
  
 if __name__ == "__main__":
-    app.run(host='172.15.37.15')
+    app.run(host=' 192.168.0.26')
 
 

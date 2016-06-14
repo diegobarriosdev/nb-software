@@ -113,19 +113,19 @@
 			setTimeout(function(){ playSound('d90'); }, 0);
 			setTimeout(function(){ playSound('d06'); }, time(0.5));
 			setTimeout(function(){ playSound(number); },time(3));
-			setTimeout(function(){ playSound('d42'); }, time(3.5));
-			setTimeout(function(){ playSound('d08'); }, time(4.5));
+			setTimeout(function(){ playSound('d42'); }, time(4));
+			setTimeout(function(){ playSound('d08'); }, time(5));
 			setTimeout(function(){ 
 				show('#div-a1-rv-1-s');
-			},time(7));
+			},time(8));
 		}else if(e=="e"){
 			setTimeout(function(){ playSound('d91'); }, 0);
 			setTimeout(function(){ playSound('d07'); }, time(0.5));
 			setTimeout(function(){ playSound(number); },time(3));
-			setTimeout(function(){ playSound('d42'); }, time(3.5));
+			setTimeout(function(){ playSound('d42'); }, time(4));
 			setTimeout(function(){ 
 				show('#div-a1-rv-1-e');
-			},time(7));
+			},time(8));
 		}		
 	}
 
@@ -139,11 +139,8 @@
 		waitAndPlay(time(2.5),'d88');
 	}
 
-	function rnMssgSuccess2(time,nb,color){
+	function rnMssgSuccess2(nb,color){
 		waitAndPlay(time(0),'d15');
-		setTimeout(function(){
-			rnBlockAndColor(nb,co);
-		},time(5));
 	}
 
 	function rnMssgError2(nb,co){
