@@ -96,5 +96,6 @@ var userResponse;
 		$("#input").val(text);
 		//send();
 		userResponse=$("#input").val();
+		//userResponse=5;
 		numbotResponse(userResponse);		
 	}

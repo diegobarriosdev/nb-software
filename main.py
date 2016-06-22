@@ -54,13 +54,13 @@ def cutimage(player,original,edited):
     imageedited="img/"+edited+".png"
     img=cv2.imread(imageoriginal)
     if player=="com":
-        tmp=img[105:330, 25:250]        
+        tmp=img[105:300, 25:220]        
         cv2.imwrite(imageedited,tmp)        
     elif player=="player":
-        tmp=img[105:310, 400:600]
+        tmp=img[105:290, 400:570]
         cv2.imwrite(imageedited,tmp)
-    #cv2.imshow("Cut Image", tmp)
-    #cv2.waitKey(0)
+    cv2.imshow("Cut Image", tmp)
+    cv2.waitKey(0)
     
 def countcotours(img):
     nc=0
@@ -87,8 +87,8 @@ def countcotours(img):
             cv2.putText(image, "center", (cX - 20, cY - 20),
             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
             nc=nc+1 
-            #cv2.imshow("Image", image)
-            #cv2.waitKey(0) 
+            cv2.imshow("Image", image)
+            cv2.waitKey(0) 
     return nc
 
 def findcolors(nc,im):
@@ -120,8 +120,8 @@ def findcolors(nc,im):
                 cv2.putText(image, text, (cX, cY),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
                 cont=cont+1
-                #cv2.imshow("Image", image)
-                #cv2.waitKey(0)
+                cv2.imshow("Image", image)
+                cv2.waitKey(0)
     return cont
 
 def getnumber():
@@ -136,7 +136,7 @@ def index():
 @app.route("/stg-a1-01")
 def iniciar():
     #nbCOM=getnumber()
-    nbCOM=4
+    nbCOM=5
     dat='A'+str(nbCOM)+'#'
     sendToArduino(dat)
     print("Numero Enviado: "+str(nbCOM))
@@ -147,7 +147,8 @@ def rvoz1():
     captureimage()
     saveimage("originala101")
     cutimage("com","originala101","a1m1com01")
-    nbCOM=countcotours("a1m1com01")
+    #nbCOM=countcotours("a1m1com01")
+    nbCOM=5
     return render_template('rvoz-a1-01.html',nbCOM=nbCOM)
 
 #Verificar tablero Jugador
@@ -158,7 +159,9 @@ def rcam1():
     cutimage("com","originala101","a1m1com")
     cutimage("player","originala101","a1m1player")
     nbPlayer=countcotours("a1m1player")
-    nbCom=countcotours("a1m1com")
+    #nbCom=countcotours("a1m1com")
+    nbCom=5
+    nbPlayer=5
     print("COM B:"+str(nbCom))
     print("PLA B:"+str(nbPlayer))
     return render_template("rcam-a1-01.html",nbCOM=nbCom,nbPlayer=nbPlayer)
@@ -172,7 +175,8 @@ def rcam2():
     captureimage()
     saveimage("originala102")
     cutimage("player","originala102","a1m2player")
-    nbPlayer=countcotours("a1m2player")
+    #nbPlayer=countcotours("a1m2player")
+    nbPlayer=1
     print("NBloques A2M2: "+str(nbPlayer))
     dat='A'+str(nbPlayer)+'#'
     print(dat)
@@ -250,6 +254,6 @@ def act02m107():
 
  
 if __name__ == "__main__":
-    app.run(host=' 192.168.0.26')
+    app.run(host=' 192.168.43.247')
 
 
